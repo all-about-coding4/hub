@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LynkHub – Iframe Demo</title>
+    <style>
+        body { font-family: system-ui; padding: 20px; }
+        nav { margin-bottom: 20px; }
+        button { padding: 8px 16px; margin-right: 10px; cursor: pointer; background: #007aff; color: #fff; border: none; border-radius: 6px; }
+        button:hover { background: #005bb5; }
+        iframe { width: 100%; height: 80vh; border: 1px solid #ddd; border-radius: 8px; background: #fff; }
+    </style>
+    <script src="/lynkio/client.js"></script>
+</head>
+<body>
+    <h1>📄 LynkHub – Iframe Demo</h1>
+    <nav>
+        <button id="homeBtn">🏠 Home</button>
+        <button id="editorBtn">✏️ Editor</button>
+    </nav>
+    <iframe id="contentFrame" src=""></iframe>
+
+    <script type="module">
+        import lynkhub_ from "/static/javascript/helper.js";
+
+        const app = new lynkhub_();
+        await app.startServer();
+
+        const iframe = document.getElementById('contentFrame');
+
+        document.getElementById('homeBtn').addEventListener('click', () => {
+            iframe.src = '/home';
+        });
+
+        document.getElementById('editorBtn').addEventListener('click', () => {
+            iframe.src = '/editor';
+        });
+
+        // If you want to track iframe navigation (optional)
+        iframe.addEventListener('load', () => {
+            console.log('Iframe loaded:', iframe.src);
+        });
+    </script>
+</body>
+</html>
