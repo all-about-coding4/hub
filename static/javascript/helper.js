@@ -1,6 +1,6 @@
 export default class lynkhub_ {
     constructor() {
-        this.app_ = new LynkClient(`ws://localhost:8080`);
+        this.app_ = new LynkClient(`ws://${window.location.hostname}:${window.location.port}`);
         this.db_ = this.app_.createDataset("lynkHub");
         this.server = null;
         // In-memory static file cache
@@ -10,6 +10,7 @@ export default class lynkhub_ {
     async getDB_() {
         return this.db_;
     }
+    
 
     // Register a static file (CSS, JS, image, etc.)
     async registerStaticFile(path, content, contentType = "text/javascript") {
@@ -19,7 +20,6 @@ export default class lynkhub_ {
     }
 
     async startServer() {
-        await this.app_.connect();
         this.server = this.app_.server();
 
         // --- Main pages ---
@@ -107,4 +107,24 @@ export default class lynkhub_ {
         await new Promise(resolve => setTimeout(resolve, 100));
         console.log("Server ready");
     }
+    
+    async rewriteAppPaths(code, appName) {
+        const base = '/' + appName.replace(/^\/+|\/+$/g, '');
+        function rewritePath(rawPath) {
+            const rest = rawPath.replace(/^\.?\//, '');
+            if (rest === '') return base + '/';
+            if (rest.startsWith(appName) && (rest.length === appName.length || rest[appName.length] === '/')) return rawPath;
+            return base + rest;
+        }
+        
+        const quotedRegex = /(["'`])((?:\.?\/)[^"'\`]*?)(["'`])/g;
+        let result = code.replace(quotedRegex, (match, open, path, close) => open + rewritePath(path) + close);
+        const cssUrlRegex = /url\(\s*((?:\.?\/)[^)\s]*)\s*\)/g;
+        result = result.replace(cssUrlRegex, (match, path) => 'url(' + rewritePath(path) + ')');
+        const attrRegex = /(src|href|action|data-[a-zA-Z0-9_-]+)\s*=\s*((?:\.?\/)[^\s>'"]+)/g;
+        result = result.replace(attrRegex, (match, attr, path) => attr + '=' + rewritePath(path));
+    
+        return result;
+    }
+    
 }

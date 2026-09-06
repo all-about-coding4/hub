@@ -1258,6 +1258,7 @@
         <div class="app-store-content" id="storeContent">
 
             <div class="store-header">
+                <h1>LynkHub</h1>
                 <div class="header-actions">
                     <button onclick="openUploadModal()" title="Upload App"><i class="fas fa-cloud-upload-alt"></i></button>
                     <button onclick="openAddAppModal()" title="Add App by URL"><i class="fas fa-plus-circle"></i></button>
@@ -1315,16 +1316,12 @@
             <div class="modal">
                 <h2><i class="fas fa-cloud-upload-alt" style="color:var(--accent);"></i> Upload App</h2>
                 <div class="sub">Submit your app via GitHub</div>
-                <label>GitHub Project URL</label>
-                <input type="url" id="uploadGithubUrl" placeholder="https://github.com/user/repo" />
+                <label>GitHub Username</label>
+                <input type="text" id="uploadGithubUsername" placeholder="username" />
+                <label>Repo Name</label>
+                <input type="text" id="uploadRepoName" placeholder="repo name" />
                 <label>GitHub Token</label>
-                <input type="password" id="uploadToken" placeholder="ghp_xxxxxxxxxxxxxxxx" />
-                <label>Description</label>
-                <textarea id="uploadDescription" placeholder="What does your app do? What should it contain?"></textarea>
-                <label>App Name</label>
-                <input type="text" id="uploadName" placeholder="My Awesome App" />
-                <label>Category</label>
-                <input type="text" id="uploadCategory" placeholder="Productivity, Games, etc." />
+                <input type="password" id="uploadToken" placeholder="ghp_xxxxxxxxxxxxxxxx (optional)" />
                 <div class="modal-actions">
                     <button class="btn-cancel" onclick="closeModal('uploadModal')"><i class="fas fa-times"></i> Cancel</button>
                     <button class="btn-confirm" onclick="submitUpload()"><i class="fas fa-upload"></i> Upload</button>
@@ -1460,10 +1457,8 @@
         //  UPDATE
         // ============================================================
         function checkForUpdate() {
-            // Simulate checking for update
             showToast('🔍 Checking for updates...');
             setTimeout(() => {
-                // Always show update modal (simulate available update)
                 openModal('updateModal');
             }, 1500);
         }
@@ -1471,9 +1466,7 @@
         function performUpdate() {
             closeModal('updateModal');
             showToast('🔄 Updating LynkHub... Please wait.');
-            // Simulate download & install
             setTimeout(() => {
-                // Reload the page to simulate a fresh version
                 location.reload();
             }, 2000);
         }
@@ -1783,8 +1776,9 @@
         }
 
         function openUploadModal() {
-            ['uploadGithubUrl', 'uploadToken', 'uploadDescription', 'uploadName', 'uploadCategory'].forEach(id =>
-                document.getElementById(id).value = '');
+            document.getElementById('uploadGithubUsername').value = '';
+            document.getElementById('uploadRepoName').value = '';
+            document.getElementById('uploadToken').value = '';
             openModal('uploadModal');
         }
 
@@ -1794,32 +1788,38 @@
         }
 
         // ============================================================
-        //  UPLOAD
+        //  UPLOAD (updated for username + repo name)
         // ============================================================
         function submitUpload() {
-            const url = document.getElementById('uploadGithubUrl').value.trim();
+            const username = document.getElementById('uploadGithubUsername').value.trim();
+            const repoName = document.getElementById('uploadRepoName').value.trim();
             const token = document.getElementById('uploadToken').value.trim();
-            const desc = document.getElementById('uploadDescription').value.trim();
-            const name = document.getElementById('uploadName').value.trim();
-            const category = document.getElementById('uploadCategory').value.trim();
 
-            if (!url || !token || !desc || !name) {
-                showToast('Please fill in all fields.');
+            if (!username || !repoName) {
+                showToast('Please enter both GitHub username and repository name.');
                 return;
             }
-            if (!url.includes('github.com')) {
-                showToast('Please enter a valid GitHub repository URL.');
-                return;
-            }
+
+            // Construct GitHub URL
+            const githubUrl = `https://github.com/${username}/${repoName}`;
+
+            // Use repo name as app name
+            const appName = repoName;
+
+            // Default description (could be enhanced later)
+            const description = `App from GitHub repository: ${username}/${repoName}`;
+
+            // Category default
+            const category = 'GitHub';
 
             const newApp = {
                 id: 'app-' + Date.now(),
-                name: name,
-                developer: 'Developer',
-                description: desc,
-                githubUrl: url,
-                token: token,
-                category: category || 'Uncategorized',
+                name: appName,
+                developer: username,
+                description: description,
+                githubUrl: githubUrl,
+                token: token || '', // optional token
+                category: category,
                 iconEmoji: getRandomEmoji(),
                 color: COLORS[Math.floor(Math.random() * COLORS.length)],
                 createdAt: Date.now(),
@@ -1828,7 +1828,7 @@
             apps.unshift(newApp);
             closeModal('uploadModal');
             renderAll();
-            showToast(`✅ "${name}" uploaded successfully!`);
+            showToast(`✅ "${appName}" uploaded successfully!`);
             saveToStorage();
         }
 
@@ -2118,7 +2118,7 @@
             }
         })();
 
-        console.log('🚀 LynkHub loaded – cursor restored, update available.');
+        console.log('🚀 LynkHub loaded – updated upload with username/repo.');
     </script>
 </body>
 </html>

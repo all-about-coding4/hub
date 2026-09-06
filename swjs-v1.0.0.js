@@ -1,5 +1,4 @@
-def service_worker_sc():
-    sw_script = """let routes = new Map();
+let routes = new Map();
 let route_params = [];
 let wildcard_routes = [];
 const pendingRequests = new Map();
@@ -303,5 +302,4 @@ async function handleRequest(request) {
     status: result.status ?? 200,
     headers: responseHeaders
   });
-}"""
-    return sw_script
+}
