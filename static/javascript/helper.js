@@ -471,6 +471,7 @@ var lynkhub_  = class{
     }
 
     async get_appstore(){
+        //l
         const url = "./app.manifest.json";
     }
 
