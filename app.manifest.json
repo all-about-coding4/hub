@@ -1,32 +1,53 @@
-"APP_STORE": [
+{
+    "HUB_STORE": {
+        "APP_STORE": [
+            {
+                "app_name": "Telora",
+                "app_logo": "",
+                "developer": "Alex Austin",
+                "description": "Telora is a lightweight, privacy-focused chat app designed for simple, direct communication. It uses Telegram’s infrastructure as a communication layer while providing its own clean, independent chat experience.",
+                "category": "p2p, telegram, communications, chat",
+                "app_version": "0.8",
+                "base_url": "",
+                "files": [
+                    "/index.html",
+                    "/manifest.json",
+                    "/static/style/telora1.css",
+                    "/static/jscript/helper.js",
+                    "/static/jscript/user.js",
+                    "/static/jscript/watchdog.js",
+                    "/static/jscript/connection.js",
+                    "/static/jscript/telegram-api.js",
+                    "/static/icons/telora-icon-192.png",
+                    "/static/icons/telora-icon-512.png",
+                    "/static/icons/telora-icon2-192.png"
+                ]
+            }
+        ],
 
-    {
-        "app_name": "Telora",
-        "app_logo": "",
-        "developer": "Alex Austin",
-        "description": "Telora is a lightweight, privacy-focused chat app designed for simple, direct communication. It uses Telegram’s infrastructure as a communication layer while providing its own clean, independent chat experience.",
-        "category": "p2p, telegram, communications, chat",
-        "app_version": "0.8",
-        
-        "base_url": "",
-        
-        "files":[
-          "/index.html",
-          "/manifest.json",
-
-          "/static/style/telora1.css",
-
-          "/static/jscript/helper.js",
-          "/static/jscript/user.js",
-          "/static/jscript/watchdog.js",
-          "/static/jscript/connection.js",
-          "/static/jscript/telegram-api.js",
-
-          "/static/icons/telora-icon-192.png",
-          "/static/icons/telora-icon-512.png",
-          "/static/icons/telora-icon2-192.png"
-        ] ,
-        
-    },
-    
-]
+        "TRENDING": [
+            {
+                "app_name": "Telora",
+                "app_logo": "",
+                "developer": "Alex Austin",
+                "description": "Telora is a lightweight, privacy-focused chat app designed for simple, direct communication. It uses Telegram’s infrastructure as a communication layer while providing its own clean, independent chat experience.",
+                "category": "p2p, telegram, communications, chat",
+                "app_version": "0.8",
+                "base_url": "",
+                "files": [
+                    "/index.html",
+                    "/manifest.json",
+                    "/static/style/telora1.css",
+                    "/static/jscript/helper.js",
+                    "/static/jscript/user.js",
+                    "/static/jscript/watchdog.js",
+                    "/static/jscript/connection.js",
+                    "/static/jscript/telegram-api.js",
+                    "/static/icons/telora-icon-192.png",
+                    "/static/icons/telora-icon-512.png",
+                    "/static/icons/telora-icon2-192.png"
+                ]
+            }
+        ]
+    }
+}

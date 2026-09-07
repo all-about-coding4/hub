@@ -1185,9 +1185,10 @@
     </footer>
 
     <script src="./lynkiojs-v1.0.0.js"></script>
+    <script src="/static/javascript/helper.js"></script>
+    
 
-    <script type="module">
-        import lynkhub_ from "/static/javascript/helper.js";
+    <script> 
 
         // ============================================================
         //  DOM REFS
@@ -1258,14 +1259,20 @@
                  
                 const data = await nextp_data.text();
                 const hdata = await hub_.rewriteAppPaths(data, "lynkhub");
+
+                //console.log(hdata);
                 
                 const jdata = await n_js.text();
                 const jrdata = await hub_.rewriteAppPaths(jdata, "lynkhub");
+
+                const ldata = await l_js.text();
+                const rldata = await hub_.rewriteAppPaths(ldata, "lynkhub");
                 
                 await db_.create_table("html");
-                await db_.create_table("javascript");
+                await db_.create_table("static");
                 
-                await db_.insert("javascript", jrdata, "/static/javascript/helper.js");
+                await db_.insert("static", jrdata, "/static/javascript/helper.js");
+                await db_.insert("static", rldata, "/lynkiojs-v1.0.0.js");
                 await db_.insert("html", hdata, "home.html");
             }
 
